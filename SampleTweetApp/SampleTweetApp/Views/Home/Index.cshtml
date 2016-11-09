@@ -1,28 +1,100 @@
-﻿<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+﻿
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <h2>Sample twitter app</h2>
+    </div>
+</div>
+<br />
+<br />
+<br />
+
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <textarea rows="6" class="form-control" style="min-width:100%;"></textarea>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-6 col-md-offset-3 text-right">
+        <button class="btn btn-primary">Add Tweet</button>
+    </div>
 </div>
 <div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>ASP.NET Web API is a framework that makes it easy to build HTTP services that reach
-        a broad range of clients, including browsers and mobile devices. ASP.NET Web API
-        is an ideal platform for building RESTful applications on the .NET Framework.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301870">Learn more &raquo;</a></p>
+    <div class="col-md-4 col-md-offset-3">
+        <h2>Tweets</h2>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301871">Learn more &raquo;</a></p>
+</div>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3" ng-controller="tweetController">
+        @*@for (int i = 0; i < 2; i++) {*@
+        <div class="panel panel-primary" ng-repeat="item in sampledata">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{item.FullName}}</h3>
+            </div>
+            <div class="panel-body">
+                {{item.TweetMessage}}
+                <div class="row">
+                    <div class="col-sm-4 col-sm-offset-8 col-md-2 col-md-offset-10">
+                        @*<button class="btn btn-success">Like</button>*@
+                        <button class="btn btn-danger" ng-click="DeleteTweet()">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*}*@
     </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Good day visitor!</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>To proceed further, please enter your name:</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" name="name" value=" " class="form-control" />
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Start Tweet!</button>
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
+    $(document).ready(function () {
+        $('#myModal').modal('show');
+    });
+
+    var app = angular.module('tweetApp', []);
+
+    app.controller('tweetController', function ($scope, $http) {
+        console.log('running...');
+        $scope.sampledata = [];
+
+        $scope.DeleteTweet = function () {
+            console.log('deleting...');
+            $scope.sampledata.splice();
+        }
+
+        $http.get('/api/tweets').success(function (data) {
+            //console.log(data);
+            $scope.sampledata = data;
+        });
+    });
 
 </script>
