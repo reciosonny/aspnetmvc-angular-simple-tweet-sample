@@ -38,6 +38,10 @@ namespace SampleTweetApp.Domain.Repositories.Implementations {
             //throw new NotImplementedException();
         }
 
+        public void AddRange(IEnumerable<T> entities) {
+            _table.AddRange(entities);
+        }
+
         public void Update(T entity) {
             _db.Entry(entity).State = EntityState.Modified;
         }

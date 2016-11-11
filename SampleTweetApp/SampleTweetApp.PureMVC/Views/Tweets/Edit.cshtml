@@ -1,0 +1,20 @@
+﻿@model SampleTweetApp.Domain.ViewModels.TweetViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit your tweet message</h2>
+
+@using (Html.BeginForm()) {
+    @Html.HiddenFor(x => x.FullName)
+    <div class="row">
+        <div class="col-md-3">
+            @Html.TextBoxFor(x => x.TweetMessage, new { @class = "form-control" })
+        </div>
+        <div class="col-md-9">
+            <input type="submit" name="" value="Save Changes" class="btn btn-primary" />
+        </div>
+    </div>
+    
+}

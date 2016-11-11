@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace SampleTweetApp.Domain.Repositories.Interfaces {
     public interface IRepository<T> where T : class {
         void Add(T entity);
+        void AddRange(IEnumerable<T> entities);
         void Update(T entity);
         void Remove(T entity);
         T GetItem(int id);

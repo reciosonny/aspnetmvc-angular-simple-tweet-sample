@@ -26,12 +26,38 @@ namespace SampleTweetApp.Domain.Services {
             uo.SaveChanges();
         }
 
+        public void UpdateTweet(TweetViewModel model) {
+            uo.Tweets.Update(new Tweet() {
+                Id = model.Id,
+                FullName = model.FullName,
+                Message = model.TweetMessage
+            });
+            uo.SaveChanges();
+        }
+
+        public void DeleteTweet(int id) {
+            var tweet = uo.Tweets.GetItem(id);
+
+            uo.Tweets.Remove(tweet);
+            uo.SaveChanges();
+        }
+
+        public TweetViewModel GetTweet(int id) {
+            var result = uo.Tweets.GetItem(id);
+            var model = new TweetViewModel() {
+                FullName = result.FullName,
+                TweetMessage = result.Message,
+                Id = result.Id
+            };
+            return model;
+        }
+
         public IEnumerable<TweetViewModel> GetTweets() {
             return uo.Tweets.GetAll().Select(x => new TweetViewModel() {
                 FullName = x.FullName,
                 TweetMessage = x.Message,
                 Id = x.Id
-            });
+            }).OrderByDescending(x => x.Id);
         }
 
 

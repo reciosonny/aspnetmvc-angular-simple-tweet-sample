@@ -1,0 +1,26 @@
+﻿@model SampleTweetApp.Domain.ViewModels.TweetViewModel
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Do you really want to delete this tweet?</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>Tweet Details</h3>
+        <h4>User: @Model.FullName</h4>
+        <h4>Message: @Model.TweetMessage</h4>
+    </div>
+    <div class="col-md-12">
+        <div class="alert alert-danger" role="alert"> <strong>Note: </strong> This will be deleted forever
+
+            @using (Html.BeginForm()) {
+                @Html.HiddenFor(x => x.Id)
+                <input type="submit" name="" value="YES" class="btn btn-danger" />
+                @Html.ActionLink("GO BACK", "Index", new { }, new { @class = "btn btn-primary" })
+            }
+
+
+        </div>
+    </div>
+</div>

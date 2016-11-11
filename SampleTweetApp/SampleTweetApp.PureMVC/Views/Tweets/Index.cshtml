@@ -1,0 +1,74 @@
+﻿@model SampleTweetApp.PureMVC.Models.TweetFormViewModel
+
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <h2>Sample twitter app(Pure MVC Version)</h2>
+        <h3>Logged-in as: @Session["Username"]</h3>
+    </div>
+</div>
+<br />
+<br />
+<br />
+
+
+<div ng-controller="tweetController">
+    @using (Html.BeginForm()) {
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                @Html.TextAreaFor(model => model.TweetMessage, new { @class="form-control", @rows="6", @style="min-width:100%;" })
+                @*<textarea rows="6" class="form-control" style="min-width:100%;"></textarea>*@
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 text-right">
+                <input type="submit" value="Add Tweet" class="btn btn-primary" />
+            </div>
+        </div>
+    }
+    
+    <div class="row">
+        <div class="col-md-4 col-md-offset-3">
+            <h2>Tweets</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+
+
+            @foreach (var item in Model.Tweets) {
+                
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">@item.FullName</h3>
+                    </div>
+                    <div class="panel-body">
+                        @item.TweetMessage
+                        <div class="row">
+                            <div class="col-sm-4 col-sm-offset-8 col-md-5 col-md-offset-7">
+                                @if (item.FullName == Session["Username"].ToString()) {
+                                    @Html.ActionLink("Update Tweet", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" }) 
+                                    
+                                    
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })                                    
+                                }
+
+                                @*<button class="btn btn-primary" id="btnUpdateTweet">Update Tweet</button>
+                                <button class="btn btn-danger">Delete</button>*@
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+
+
+
+
+
+
+</div>

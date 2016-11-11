@@ -1,100 +1,176 @@
 ﻿
 
-<div class="row">
-    <div class="col-md-6 col-md-offset-3">
-        <h2>Sample twitter app</h2>
-    </div>
-</div>
-<br />
-<br />
-<br />
 
 
-<div class="row">
-    <div class="col-md-6 col-md-offset-3">
-        <textarea rows="6" class="form-control" style="min-width:100%;"></textarea>
+<div ng-controller="tweetController">
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <h2>Sample twitter app(AngularJS version)</h2>
+            <h3>Logged-in as: {{Username}}</h3>
+        </div>
     </div>
-</div>
-<br />
-<div class="row">
-    <div class="col-md-6 col-md-offset-3 text-right">
-        <button class="btn btn-primary">Add Tweet</button>
+    <br />
+    <br />
+    <br />
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <textarea rows="6" class="form-control" style="min-width:100%;" ng-model="TweetMessage"></textarea>
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-4 col-md-offset-3">
-        <h2>Tweets</h2>
+    <br />
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 text-right">
+            <button class="btn btn-primary" ng-click="PostTweet()">Add Tweet</button>
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-6 col-md-offset-3" ng-controller="tweetController">
-        @*@for (int i = 0; i < 2; i++) {*@
-        <div class="panel panel-primary" ng-repeat="item in sampledata">
-            <div class="panel-heading">
-                <h3 class="panel-title">{{item.FullName}}</h3>
-            </div>
-            <div class="panel-body">
-                {{item.TweetMessage}}
-                <div class="row">
-                    <div class="col-sm-4 col-sm-offset-8 col-md-2 col-md-offset-10">
-                        @*<button class="btn btn-success">Like</button>*@
-                        <button class="btn btn-danger" ng-click="DeleteTweet()">Delete</button>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-3">
+            <h2>Tweets</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            @*@for (int i = 0; i < 2; i++) {*@
+            <div class="panel panel-primary" ng-repeat="item in sampledata">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{item.FullName}}</h3>
+                </div>
+                <div class="panel-body">
+                    {{item.TweetMessage}}
+                    <div class="row" ng-show="item.FullName==Username">
+                        <div class="col-sm-4 col-sm-offset-8 col-md-5 col-md-offset-7">
+                            <button class="btn btn-primary" id="btnUpdateTweet" ng-click="UpdateTweet(item)">Update Tweet</button>
+                            <button class="btn btn-danger" ng-click="DeleteTweet(item.Id)" data-id="{{item.Id}}">Delete</button>
+                        </div>
                     </div>
+                </div>
+            </div>
+            @*}*@
+
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Good day visitor!</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>To proceed further, please enter your name:</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input type="text" name="name" value=" " class="form-control" ng-model="Username" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="StartTweet()">Start Tweet!</button>
                 </div>
             </div>
         </div>
-        @*}*@
     </div>
-</div>
 
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Good day visitor!</h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h4>To proceed further, please enter your name:</h4>
+    <div class="modal fade" id="modalUpdateTweet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Update Tweet</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>Update your tweet:</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input type="text" name="name" value=" " class="form-control" ng-model="UpdateModel.TweetMessage" />
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <input type="text" name="name" value=" " class="form-control" />
-                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="FinishUpdate()">Update tweet</button>
                 </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Start Tweet!</button>
             </div>
         </div>
     </div>
 </div>
+
+
+
+
+
+
 
 <script>
     $(document).ready(function () {
         $('#myModal').modal('show');
     });
 
-    var app = angular.module('tweetApp', []);
+    var app = angular.module('tweetApp', ['ngAnimate', 'toastr']);
 
-    app.controller('tweetController', function ($scope, $http) {
+    app.controller('tweetController', function ($scope, $http, toastr) {
         console.log('running...');
         $scope.sampledata = [];
 
-        $scope.DeleteTweet = function () {
-            console.log('deleting...');
-            $scope.sampledata.splice();
+        function getTweets() {
+            $http.get('/api/tweets').success(function (data) {
+                //console.log(data);
+                $scope.sampledata = data;
+            });
+        }
+        getTweets(); //initialize tweets
+
+        $scope.UpdateTweet = function (updateModel) {
+            $scope.UpdateModel = updateModel
+            console.log('update tweet');
+            $('#modalUpdateTweet').modal('show');
+        }
+        $scope.FinishUpdate = function () {
+           
+            $http.post('/api/tweets/update', $scope.UpdateModel).success(function () {
+                getTweets();
+                toastr.success('Successfully update your tweet!', 'Success');
+            });
         }
 
-        $http.get('/api/tweets').success(function (data) {
-            //console.log(data);
-            $scope.sampledata = data;
-        });
+        $scope.PostTweet = function () {
+            var model = {
+                TweetMessage: $scope.TweetMessage,
+                FullName: $scope.Username
+            }
+
+            $http.post('/api/tweets/add', model).success(function () {
+                getTweets();
+                toastr.success('Successfully tweeted!', 'Success');
+                console.log('tweet posted!');
+                console.log($scope.TweetMessage);
+            });
+
+            $scope.TweetMessage = "";
+        }
+
+        $scope.DeleteTweet = function (id) {
+            $http.post('/api/tweets/delete/' + id).success(function () {
+                toastr.success('Successfully deleted your tweet!', 'Success');
+                getTweets();
+            });
+        }
+        $scope.StartTweet = function () {
+            toastr.success('You\'re tweeting as: '+$scope.Username, 'Success');
+            console.log($scope.Username);
+        }
+
     });
 
 </script>

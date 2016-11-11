@@ -35,8 +35,24 @@ namespace SampleTweetApp.Controllers.API {
             return Ok("Success!");
         }
 
-        // DELETE api/<controller>/5
-        public void Delete(int id) {
+        [HttpPost]
+        [Route("update")]
+        public IHttpActionResult UpdateTweet(TweetViewModel model) {
+            tweetService.UpdateTweet(model);
+
+
+            return Ok("Success!");
         }
+
+
+        [HttpPost]
+        [Route("delete/{id}")]
+        public IHttpActionResult DeleteTweet(int id) {
+
+            tweetService.DeleteTweet(id);
+            return Ok(id);
+        }
+
+
     }
 }
